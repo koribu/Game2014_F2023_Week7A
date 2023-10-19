@@ -4,6 +4,25 @@ using UnityEngine;
 
 public class BulletFactory : MonoBehaviour
 {
+    /***********************SINGLETON SECTION*****************************/
+    //Step 1 private static instance
+    private static BulletFactory instance;
+
+    //Step 2 Make the constructor private
+
+    private BulletFactory()
+    {
+        //Add the construction stuff
+    }
+
+    //Step 3 public static creational method
+    public static BulletFactory Instance()
+    {
+        return instance ??= new BulletFactory();
+    }
+
+    /***********************SINGLETON SECTION****************************/
+
     private GameObject _bulletPrefab;
 
     [SerializeField]

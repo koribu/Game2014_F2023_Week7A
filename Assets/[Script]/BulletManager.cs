@@ -2,8 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletManager : MonoBehaviour
+public class BulletManager
 {
+    /****************************SINGLETON SECTION******************************/
+    //Step 1 private Static Instance
+    private static BulletManager instance;
+
+    //Step 2 Make the Constructor function private
+    private BulletManager()
+    {
+        //Our constructing functions
+    }
+
+    //Step 3 Public Static Creational Method -- Instance(Gateway to the class)
+    public static BulletManager Instance()
+    {
+        //Check if we already created that instance before. if not, create and instance of that object
+        if(instance == null)
+        {
+            instance = new BulletManager();
+        }
+        //return instance of that object
+        return instance;
+    }
+
+    /*****************************SINGLETON SECTION*****************************/
+
+
     GameObject _bulletPrefab;
     Queue<GameObject> _playerBulletPool = new Queue<GameObject>();
     Queue<GameObject> _enemyBulletPool = new Queue<GameObject>();
