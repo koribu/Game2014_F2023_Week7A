@@ -34,9 +34,6 @@ public class BulletFactory
         _enemyBulletPrefab = Resources.Load<GameObject>("Prefabs/EnemyBullet");
     }
 
-    [SerializeField]
-    private Sprite _playerBulletSprite, _enemyBulletSprite;
-    // Start is called before the first frame update
 
     public GameObject CreateBullet(BulletTypes type)
     {

@@ -31,9 +31,7 @@ public class BulletManager
     /*****************************SINGLETON SECTION*****************************/
 
 
- 
-    Queue<GameObject> _playerBulletPool = new Queue<GameObject>();
-    Queue<GameObject> _enemyBulletPool = new Queue<GameObject>();
+    List<Queue<GameObject>> _bulletPools = new List<Queue<GameObject>>();
 
     [SerializeField]
     int _playerBulletTotal = 50;
@@ -44,6 +42,11 @@ public class BulletManager
 
     private void SetupBulletManager()
     {
+        for(int count = 0; count < (int)BulletTypes.NUMBEROFBULLETTYPES; count++)
+        {
+            _bulletPools.Add(new Queue<GameObject>());
+        }
+
         BuildBulletPool();
     }
 
@@ -52,6 +55,13 @@ public class BulletManager
         //create bullets
         //add them to a list
 
+
+        for(int i = 0; i < _bulletPools.Count; i++)
+        {
+            _bulletPools[i].Enqueue(BulletFactory.Instance().CreateBullet((BulletTypes)i));
+
+        }
+/*
         for(int i = 0; i < _playerBulletTotal; i++)
         {
             GameObject bullet = BulletFactory.Instance().CreateBullet(BulletTypes.PLAYERBULLET); //_factory.CreateBullet(BulletTypes.PLAYERBULLET);
@@ -61,16 +71,25 @@ public class BulletManager
         {
             GameObject bullet = BulletFactory.Instance().CreateBullet(BulletTypes.ENEMYBULLET);
             _enemyBulletPool.Enqueue(bullet);
-        }
+        }*/
     }
 
     
     public GameObject GetBullet(BulletTypes type)
-    {
-     
-        GameObject bullet;
+    {    
 
-        switch(type)
+        if (_bulletPools[(int)type].Count < 1)
+            _bulletPools[(int)type].Enqueue(BulletFactory.Instance().CreateBullet(type));
+
+        GameObject bullet = _bulletPools[(int)type].Dequeue();
+
+        bullet.SetActive(true);
+
+        return bullet;
+
+       
+
+      /*  switch (type)
         {
             case BulletTypes.PLAYERBULLET:
                 if (_playerBulletPool.Count < 1)
@@ -90,7 +109,7 @@ public class BulletManager
                 Debug.LogError("There is no bullet at that type in the pool");
                 return null;
             break;
-        }
+        }*/
 
         bullet.SetActive(true);
         return bullet;
@@ -102,7 +121,10 @@ public class BulletManager
     {
         bullet.SetActive(false);
 
-        switch(type)
+        _bulletPools[(int)type].Enqueue(bullet);
+
+
+ /*       switch(type)
         {
             case BulletTypes.PLAYERBULLET:
                 _playerBulletPool.Enqueue(bullet);
@@ -113,6 +135,6 @@ public class BulletManager
             default:
                 Debug.LogError("Return bullet object type doesnt exist");
                 break;
-        }
+        }*/
     }
 }
