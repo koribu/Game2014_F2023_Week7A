@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletFactory : MonoBehaviour
+public class BulletFactory 
 {
     /***********************SINGLETON SECTION*****************************/
     //Step 1 private static instance
@@ -35,9 +35,9 @@ public class BulletFactory : MonoBehaviour
 
     public GameObject CreateBullet(BulletTypes type)
     {
-        GameObject bullet = Instantiate(_bulletPrefab);
+        GameObject bullet = MonoBehaviour.Instantiate(_bulletPrefab);
         bullet.SetActive(false);
-        bullet.transform.parent = GetComponentInChildren<Transform>();
+        //bullet.transform.parent = GetComponentInChildren<Transform>();
         
         
 

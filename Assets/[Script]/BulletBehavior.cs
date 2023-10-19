@@ -14,10 +14,9 @@ public class BulletBehavior : MonoBehaviour
     float _speed = 5;
     // Start is called before the first frame update
 
-    BulletManager _manager;
     void Start()
     {
-        _manager = FindAnyObjectByType<BulletManager>();
+ 
     }
 
     // Update is called once per frame
@@ -31,7 +30,7 @@ public class BulletBehavior : MonoBehaviour
     {
         if (transform.position.y > _offLimit.max || transform.position.y < _offLimit.min)
         {
-            _manager.ReturnBullet(gameObject,_type);
+            BulletManager.Instance().ReturnBullet(gameObject,_type);
         }
     }
 

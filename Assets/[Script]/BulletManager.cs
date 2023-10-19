@@ -12,6 +12,8 @@ public class BulletManager
     private BulletManager()
     {
         //Our constructing functions
+        _bulletPrefab = Resources.Load<GameObject>("Prefabs/Bullet");
+        BuildBulletPool();
     }
 
     //Step 3 Public Static Creational Method -- Instance(Gateway to the class)
@@ -41,15 +43,6 @@ public class BulletManager
     BulletFactory _factory;
 
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        _bulletPrefab = Resources.Load<GameObject>("Prefabs/Bullet");
-        _factory = FindAnyObjectByType<BulletFactory>();
-
-        BuildBulletPool();
-    }
-
     //Instantiate a bullet pool
 
     void BuildBulletPool()
@@ -59,12 +52,12 @@ public class BulletManager
 
         for(int i = 0; i < _playerBulletTotal; i++)
         {
-            GameObject bullet = _factory.CreateBullet(BulletTypes.PLAYERBULLET);
+            GameObject bullet = BulletFactory.Instance().CreateBullet(BulletTypes.PLAYERBULLET); //_factory.CreateBullet(BulletTypes.PLAYERBULLET);
             _playerBulletPool.Enqueue(bullet);
         }
         for (int i = 0; i < _enemyBulletTotal; i++)
         {
-            GameObject bullet = _factory.CreateBullet(BulletTypes.ENEMYBULLET);
+            GameObject bullet = BulletFactory.Instance().CreateBullet(BulletTypes.ENEMYBULLET);
             _enemyBulletPool.Enqueue(bullet);
         }
     }
