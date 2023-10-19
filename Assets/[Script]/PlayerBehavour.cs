@@ -23,8 +23,6 @@ public class PlayerBehavour : MonoBehaviour
     GameObject _bulletPrefab;
     int _count = 0;
 
-    BulletManager _bulletManager;
-
     [SerializeField]
     Transform _bulletPoint;
 
@@ -37,7 +35,6 @@ public class PlayerBehavour : MonoBehaviour
                         Application.platform == RuntimePlatform.IPhonePlayer;
 
         _gameManager = FindAnyObjectByType<GameManager>();
-        _bulletManager = FindAnyObjectByType<BulletManager>();
 
         _bulletPrefab = Resources.Load<GameObject>("Prefabs/Bullet");
     }
@@ -60,7 +57,7 @@ public class PlayerBehavour : MonoBehaviour
         _count++;
         if (_count > 5)
         {
-             GameObject bullet = _bulletManager.GetBullet(BulletTypes.PLAYERBULLET);
+             GameObject bullet = BulletManager.Instance().GetBullet(BulletTypes.PLAYERBULLET);
             bullet.transform.position = _bulletPoint.position;
 
             _count = 0;

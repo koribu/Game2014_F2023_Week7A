@@ -16,7 +16,6 @@ public class EnemyBehavior : MonoBehaviour
 
     GameObject _bulletPrefab;
 
-    BulletManager _bulletManager;
 
     [SerializeField]
     Transform _bulletPoint;
@@ -26,7 +25,6 @@ public class EnemyBehavior : MonoBehaviour
     {
        _enemyMaterial = GetComponent<SpriteRenderer>().material;
         _bulletPrefab = Resources.Load<GameObject>("Prefabs/Bullet");
-        _bulletManager = FindAnyObjectByType<BulletManager>();
 
         ResetEnemy();
     }
@@ -49,7 +47,7 @@ public class EnemyBehavior : MonoBehaviour
         _count++;
         if (_count > 5)
         {
-            GameObject bullet = _bulletManager.GetBullet(BulletTypes.ENEMYBULLET);
+            GameObject bullet = BulletManager.Instance().GetBullet(BulletTypes.ENEMYBULLET);
             bullet.transform.position = _bulletPoint.position;
             
             _count = 0;

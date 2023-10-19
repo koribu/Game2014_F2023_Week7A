@@ -13,6 +13,9 @@ public class BulletFactory
     private BulletFactory()
     {
         //Add the construction stuff
+        SetupBulletFactory();
+
+
     }
 
     //Step 3 public static creational method
@@ -23,30 +26,35 @@ public class BulletFactory
 
     /***********************SINGLETON SECTION****************************/
 
-    private GameObject _bulletPrefab;
+    GameObject _playerBulletPrefab, _enemyBulletPrefab;
+
+    private  void SetupBulletFactory()
+    {
+        _playerBulletPrefab = Resources.Load<GameObject>("Prefabs/PlayerBullet");
+        _enemyBulletPrefab = Resources.Load<GameObject>("Prefabs/EnemyBullet");
+    }
 
     [SerializeField]
     private Sprite _playerBulletSprite, _enemyBulletSprite;
     // Start is called before the first frame update
-    void Start()
-    {
-        _bulletPrefab = Resources.Load<GameObject>("Prefabs/Bullet");
-    }
 
     public GameObject CreateBullet(BulletTypes type)
     {
-        GameObject bullet = MonoBehaviour.Instantiate(_bulletPrefab);
-        bullet.SetActive(false);
+
+
         //bullet.transform.parent = GetComponentInChildren<Transform>();
-        
-        
+        GameObject bullet;
+
+
 
         switch (type)
         {
             case BulletTypes.PLAYERBULLET:
+                bullet = MonoBehaviour.Instantiate(_playerBulletPrefab);
+
                 bullet.name = "PlayerBullet";
 
-                bullet.GetComponent<SpriteRenderer>().sprite = _playerBulletSprite;
+               // bullet.GetComponent<SpriteRenderer>().sprite = _playerBulletSprite;
                 bullet.GetComponent<BulletBehavior>().SetDirection(Vector3.up);
 
                 bullet.GetComponent<BulletBehavior>().SetType(BulletTypes.PLAYERBULLET);
@@ -54,9 +62,11 @@ public class BulletFactory
                 bullet.AddComponent<PlayerBullet>();
                 break;
             case BulletTypes.ENEMYBULLET:
+                bullet = MonoBehaviour.Instantiate(_enemyBulletPrefab);
+
                 bullet.name = "EnemyBullet";
 
-                bullet.GetComponent<SpriteRenderer>().sprite = _enemyBulletSprite;
+               // bullet.GetComponent<SpriteRenderer>().sprite = _enemyBulletSprite;
                 bullet.GetComponent<BulletBehavior>().SetDirection(Vector3.down);
 
                 bullet.GetComponent<BulletBehavior>().SetType(BulletTypes.ENEMYBULLET);
@@ -67,6 +77,7 @@ public class BulletFactory
 
             default:
                 Debug.LogError("Incorrect type of bullet");
+                return null;
                 break;
         }
 

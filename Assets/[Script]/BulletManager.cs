@@ -12,8 +12,8 @@ public class BulletManager
     private BulletManager()
     {
         //Our constructing functions
-        _bulletPrefab = Resources.Load<GameObject>("Prefabs/Bullet");
-        BuildBulletPool();
+        SetupBulletManager();
+      
     }
 
     //Step 3 Public Static Creational Method -- Instance(Gateway to the class)
@@ -31,7 +31,7 @@ public class BulletManager
     /*****************************SINGLETON SECTION*****************************/
 
 
-    GameObject _bulletPrefab;
+ 
     Queue<GameObject> _playerBulletPool = new Queue<GameObject>();
     Queue<GameObject> _enemyBulletPool = new Queue<GameObject>();
 
@@ -40,10 +40,12 @@ public class BulletManager
     [SerializeField]
     int _enemyBulletTotal = 50;
 
-    BulletFactory _factory;
-
-
     //Instantiate a bullet pool
+
+    private void SetupBulletManager()
+    {
+        BuildBulletPool();
+    }
 
     void BuildBulletPool()
     {
@@ -72,14 +74,14 @@ public class BulletManager
         {
             case BulletTypes.PLAYERBULLET:
                 if (_playerBulletPool.Count < 1)
-                    _playerBulletPool.Enqueue(_factory.CreateBullet(BulletTypes.PLAYERBULLET));
+                    _playerBulletPool.Enqueue(BulletFactory.Instance().CreateBullet(BulletTypes.PLAYERBULLET));
 
                 bullet = _playerBulletPool.Dequeue();
 
                 break;
             case BulletTypes.ENEMYBULLET:
                 if (_enemyBulletPool.Count < 1)
-                    _enemyBulletPool.Enqueue(_factory.CreateBullet(BulletTypes.ENEMYBULLET));
+                    _enemyBulletPool.Enqueue(BulletFactory.Instance().CreateBullet(BulletTypes.ENEMYBULLET));
 
                 bullet = _enemyBulletPool.Dequeue();
 
